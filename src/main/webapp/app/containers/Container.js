@@ -31,11 +31,8 @@ export default class Container extends React.Component {
                 message.id = id;
                 message.text = text;
                 message.userName = this.state.userName;
+                console.log(message);
                 saveMessage(message);
-            });
-
-            this.setState({
-                inputText: ''
             });
         }
     }

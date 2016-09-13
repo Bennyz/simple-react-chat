@@ -7,6 +7,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
 import java.util.UUID;
@@ -35,6 +36,8 @@ public class HTTPVerticle extends AbstractVerticle {
                 .allowedMethod(HttpMethod.OPTIONS)
                 .allowedHeader("X-PINGARUNER")
                 .allowedHeader("Content-Type"));
+        router.route().handler(BodyHandler.create());
+
 
 
         Route getRouter = router.route(HttpMethod.GET, "/chat");
@@ -48,8 +51,12 @@ public class HTTPVerticle extends AbstractVerticle {
         });
 
         postRouter.handler(context -> {
-            System.out.println("Incoming post " + );
+            System.out.println("Incoming post " + context.getBodyAsString());
             count++;
+
+            HttpServerResponse response = context.response();
+            response.putHeader("content-type", "text/plain").end("success");
+
         });
 
         lastMessageRouter.handler(context -> {
