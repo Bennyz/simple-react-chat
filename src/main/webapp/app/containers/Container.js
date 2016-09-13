@@ -43,6 +43,7 @@ export default class Container extends React.Component {
                 <ChatView
                     handleKeyPress={(event) => this.handleKeyPress(event) }
                     textValue={this.state.inputText}
+                    messages={this.state.messages}
                     />
             </div>
         )

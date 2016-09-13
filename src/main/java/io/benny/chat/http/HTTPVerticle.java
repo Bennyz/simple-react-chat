@@ -1,5 +1,8 @@
 package io.benny.chat.http;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.benny.chat.data.ChatService;
+import io.benny.chat.model.Message;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -10,6 +13,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -18,6 +22,12 @@ import java.util.UUID;
 public class HTTPVerticle extends AbstractVerticle {
 
     private static long count = 0;
+    private ChatService chatService;
+
+    public HTTPVerticle(ChatService chatService) {
+        this.chatService = chatService;
+    }
+
     @Override
     public void start() throws Exception {
         Router router = setUpRouter(vertx);
@@ -52,10 +62,19 @@ public class HTTPVerticle extends AbstractVerticle {
 
         postRouter.handler(context -> {
             System.out.println("Incoming post " + context.getBodyAsString());
-            count++;
-
+            ObjectMapper om = new ObjectMapper();
             HttpServerResponse response = context.response();
-            response.putHeader("content-type", "text/plain").end("success");
+            String result = "success";
+            Message message = null;
+            
+            try {
+                message = om.readValue(context.getBodyAsString(), Message.class);
+            } catch (IOException e) {
+                result = e.getMessage();
+            }
+
+            chatService.saveMessage(message);
+            response.putHeader("content-type", "text/plain").end(result);
 
         });
 
