@@ -5,7 +5,7 @@ package io.benny.chat.model;
  */
 public class Message {
     private int id;
-    private String message;
+    private String text;
     private String userName;
 
     public Message() {
@@ -20,12 +20,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getUserName() {

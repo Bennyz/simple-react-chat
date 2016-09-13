@@ -29,6 +29,7 @@ public class RedisChatService implements ChatService {
     public void saveMessage(Message message) {
         try {
             jedis.rpush(key, om.writeValueAsString(message));
+            jedis.save();
         } catch (JsonProcessingException e) {
             throw new RuntimeJsonMappingException("JSON parsing failed");
         }

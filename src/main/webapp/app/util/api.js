@@ -22,3 +22,7 @@ export function getLastMessageId() {
             console.log(error);
         });
 }
+
+export function fetchMessages(user, messageId) {
+    
+}

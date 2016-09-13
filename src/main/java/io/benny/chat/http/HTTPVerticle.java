@@ -66,7 +66,7 @@ public class HTTPVerticle extends AbstractVerticle {
             HttpServerResponse response = context.response();
             String result = "success";
             Message message = null;
-            
+
             try {
                 message = om.readValue(context.getBodyAsString(), Message.class);
             } catch (IOException e) {
