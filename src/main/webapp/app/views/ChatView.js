@@ -6,7 +6,9 @@ const ChatView = props => {
             <ul>
             </ul>
             <input type="text" 
-                placeholder="Enter your message..." />
+                placeholder="Enter your message..."
+                onKeyPress={props.handleKeyPress}
+                defaultValue={props.textValue} />
         </div>
     )
 }
